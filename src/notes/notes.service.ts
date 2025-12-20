@@ -2,9 +2,10 @@ import {v4 as uuid} from "uuid";
 import fs from "fs/promises";
 import path from "path";
 import {BadRequestError, NotFoundError} from "@errors";
-import {INote, IQuery, IRequestBody, IGetAllResponse} from "@types";
+import {INote, IQuery, IRequestBody, IResponseGetAll} from "@types";
 
 const filePath = path.resolve("src/data/notes.json");
+const MAX_CONTENT_LENGTH = 300;
 
 class NotesService {
 	async _readFile(): Promise<INote[]> {
@@ -18,7 +19,7 @@ class NotesService {
 			JSON.stringify(notes, null, 2));
 	}
 	
-	async getAll(query: IQuery): Promise<IGetAllResponse> {
+	async getAll(query: IQuery): Promise<IResponseGetAll> {
 		const notes = await this._readFile();
 		const {search} = query;
 		
@@ -40,7 +41,8 @@ class NotesService {
 			
 			const hasPreviousPage = startIndex > 0;
 			const hasNextPage = endIndex < filtered.length;
-			
+			const totalItems = filtered.length;
+			const totalPages = Math.ceil(filtered.length / limit);
 			filtered = filtered.slice(startIndex, endIndex);
 			
 			return {
@@ -50,6 +52,8 @@ class NotesService {
 					perPage: limit,
 					hasPreviousPage,
 					hasNextPage,
+					totalPages,
+					totalItems
 				},
 			};
 		}
@@ -77,8 +81,10 @@ class NotesService {
 		if (!content) {
 			throw new BadRequestError("Content is required");
 		}
-		if (content.length > 300) {
-			throw new BadRequestError("Content size should not be more than 300 characters");
+		if (content.length > MAX_CONTENT_LENGTH) {
+			throw new BadRequestError(
+				`Content size should not be more than ${MAX_CONTENT_LENGTH} characters`
+			);
 		}
 		
 		const notes = await this._readFile();
@@ -107,7 +113,10 @@ class NotesService {
 	async update(id: string, body: IRequestBody): Promise<INote> {
 		const content = body?.content?.trim();
 		if (!content) throw new BadRequestError("Content is required");
-		if (content.length > 300) throw new BadRequestError("Content size should not be more than 300 characters");
+		if (content.length > MAX_CONTENT_LENGTH)
+			throw new BadRequestError(
+				`Content size should not be more than ${MAX_CONTENT_LENGTH} characters`
+			);
 		
 		const notes = await this._readFile();
 		const index = notes.findIndex(n => n.id === id);

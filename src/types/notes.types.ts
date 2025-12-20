@@ -15,8 +15,10 @@ export interface IPagination {
 	perPage: number;
 	hasPreviousPage: boolean;
 	hasNextPage: boolean;
+	totalPages: number;
+	totalItems: number;
 }
-export interface IGetAllResponse {
+export interface IResponseGetAll {
 	data: INote[];
 	pagination?: IPagination;
 }
