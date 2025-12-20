@@ -1,10 +1,10 @@
-import NotesService from "./notes.service";
 import {Request, Response, NextFunction} from "express";
+import {notesService} from '@notes/notes.service'
 
 class NotesController {
 	async getAll(req:Request, res:Response, next:NextFunction) {
 		try {
-			const result = await NotesService.getAll(req.query)
+			const result = await notesService.getAll(req.query)
 			res.status(200).json({ok: true, ...result});
 		} catch (e) {
 			next(e);
@@ -13,7 +13,7 @@ class NotesController {
 	
 	async getOne(req:Request, res:Response, next:NextFunction) {
 		try {
-			const result = await NotesService.getOne(req.params.id)
+			const result = await notesService.getOne(req.params.id)
 			res.status(200).json({ok: true, data: result});
 		} catch (e) {
 			next(e);
@@ -22,7 +22,7 @@ class NotesController {
 	
 	async create(req:Request, res:Response, next:NextFunction) {
 		try {
-			res.status(201).json({ok: true, data: await NotesService.create(req.body)});
+			res.status(201).json({ok: true, data: await notesService.create(req.body)});
 		} catch (e) {
 			next(e);
 		}
@@ -30,7 +30,7 @@ class NotesController {
 	
 	async delete(req:Request, res:Response, next:NextFunction) {
 		try {
-			res.status(200).json({ok: true, data: await NotesService.delete(req.params.id)});
+			res.status(200).json({ok: true, data: await notesService.delete(req.params.id)});
 		} catch (e) {
 			next(e)
 		}
@@ -38,11 +38,11 @@ class NotesController {
 	
 	async update(req:Request, res:Response, next:NextFunction) {
 		try {
-			res.status(200).json({ok: true, data: await NotesService.update(req.params.id, req.body)});
+			res.status(200).json({ok: true, data: await notesService.update(req.params.id, req.body)});
 		} catch (e) {
 			next(e);
 		}
 	}
 }
 
-export default new NotesController();
+export const notesController = new NotesController();

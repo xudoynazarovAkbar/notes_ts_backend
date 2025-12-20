@@ -1,2 +1,2 @@
-export {BadRequestError} from "./BadRequestError";
-export {NotFoundError} from "./NotFoundError";
+export * from "./BadRequestError";
+export * from "./NotFoundError";

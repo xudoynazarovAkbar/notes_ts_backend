@@ -1,7 +1,7 @@
 import express from "express";
-import router from "./notes/notes.routes";
-import {errorHandler} from './middlewares/errorHandler';
 import {Request, Response} from "express";
+import {router} from "@notes/notes.routes";
+import {errorHandler} from '@middlewares';
 
 const app = express();
 

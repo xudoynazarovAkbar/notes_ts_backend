@@ -1,8 +1,8 @@
 import {v4 as uuid} from "uuid";
 import fs from "fs/promises";
 import path from "path";
-import {BadRequestError, NotFoundError} from "../errors";
-import {INote, IQuery, IRequestBody, IGetAllResponse} from "../types";
+import {BadRequestError, NotFoundError} from "@errors";
+import {INote, IQuery, IRequestBody, IGetAllResponse} from "@types";
 
 const filePath = path.resolve("src/data/notes.json");
 
@@ -122,4 +122,4 @@ class NotesService {
 	}
 }
 
-export default new NotesService();
+export const notesService = new NotesService();
