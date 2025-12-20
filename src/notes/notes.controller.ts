@@ -22,7 +22,8 @@ class NotesController {
 	
 	async create(req:Request, res:Response, next:NextFunction) {
 		try {
-			res.status(201).json({ok: true, data: await notesService.create(req.body)});
+			const result = await notesService.create(req.body)
+			res.status(201).json({ok: true, data: result});
 		} catch (e) {
 			next(e);
 		}
@@ -30,7 +31,8 @@ class NotesController {
 	
 	async delete(req:Request, res:Response, next:NextFunction) {
 		try {
-			res.status(200).json({ok: true, data: await notesService.delete(req.params.id)});
+			const result = await notesService.delete(req.params.id)
+			res.status(200).json({ok: true, data: result});
 		} catch (e) {
 			next(e)
 		}
@@ -38,7 +40,8 @@ class NotesController {
 	
 	async update(req:Request, res:Response, next:NextFunction) {
 		try {
-			res.status(200).json({ok: true, data: await notesService.update(req.params.id, req.body)});
+			const result = await notesService.update(req.params.id, req.body)
+			res.status(200).json({ok: true, data: result});
 		} catch (e) {
 			next(e);
 		}
