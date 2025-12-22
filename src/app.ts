@@ -1,7 +1,8 @@
-import express from "express";
+import express, {NextFunction} from "express";
 import {Request, Response} from "express";
 import {router} from "@notes/notes.routes";
 import {errorHandler} from '@middlewares';
+import {NotFoundError} from "@errors";
 
 const app = express();
 
@@ -9,8 +10,8 @@ app.use(express.json());
 
 app.use("/api/notes", router);
 
-app.use((_req: Request, res: Response) => {
-	res.status(404).json({ok: false, message: "Route not found"});
+app.use((_req: Request, _res: Response, next: NextFunction) => {
+	next(new NotFoundError("Route not found"));
 });
 
 app.use(errorHandler);
