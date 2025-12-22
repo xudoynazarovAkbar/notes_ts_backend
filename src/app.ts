@@ -9,10 +9,10 @@ app.use(express.json());
 
 app.use("/api/notes", router);
 
-app.use(errorHandler);
-
 app.use((_req: Request, res: Response) => {
 	res.status(404).json({ok: false, message: "Route not found"});
 });
+
+app.use(errorHandler);
 
 export default app;

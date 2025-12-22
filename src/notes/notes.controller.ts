@@ -49,3 +49,21 @@ class NotesController {
 }
 
 export const notesController = new NotesController();
+// {
+// 	ok: true,
+// 	data: notes or note,
+// }
+//
+// {
+// 	ok: true,
+// 	data: {
+// 		data: notes,
+// 		pagination: object,
+// 	}
+// }
+//
+// {
+// 	ok: true,
+//  data: notes,
+// 	pagination: object,
+// }
